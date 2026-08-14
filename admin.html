@@ -8,7 +8,7 @@
 <style>
   .form-wrap{max-width:640px;margin:0 auto;padding:16px;}
   label{display:block;font-size:12px;color:var(--text-secondary);margin:14px 0 4px;}
-  input[type=text],input[type=url],input[type=datetime-local],textarea,select{
+  input[type=text],input[type=url],input[type=file],textarea,select{
     width:100%;background:var(--bg-card);border:1px solid var(--border);color:var(--text);
     padding:9px 10px;border-radius:var(--radius);font-size:14px;font-family:inherit;
   }
@@ -19,11 +19,12 @@
     margin-top:16px;background:var(--red);color:#fff;border:none;
     padding:11px 16px;border-radius:var(--radius);font-size:14px;cursor:pointer;margin-right:8px;
   }
-  button.secundaria{background:var(--bg-card);border:1px solid var(--border);color:var(--text);}
-  #salida{margin-top:20px;}
-  #salida textarea{min-height:220px;font-family:monospace;font-size:12px;}
+  button.accion:disabled{opacity:0.5;}
   .aviso{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
     padding:12px;font-size:13px;color:var(--text-secondary);margin-bottom:10px;}
+  .estado{margin-top:14px;font-size:13px;padding:10px;border-radius:var(--radius);display:none;}
+  .estado.ok{display:block;background:var(--bg-card);color:#4ade80;border:1px solid #4ade80;}
+  .estado.error{display:block;background:var(--bg-card);color:var(--red);border:1px solid var(--red);}
 </style>
 </head>
 <body>
@@ -36,9 +37,7 @@
 
 <div class="form-wrap">
   <div class="aviso">
-    Este panel no publica solo: genera el bloque JSON de la nota. Copiás el resultado
-    y lo pegás dentro de <code>data/notas.json</code> (dentro de los corchetes, separado por coma
-    del resto de las notas). Guardás el archivo y subís los cambios — la nota aparece en el sitio.
+    Completá el formulario y tocá "Publicar nota" — se guarda directo en el sitio, sin pasos extra.
   </div>
 
   <label>Título</label>
@@ -80,8 +79,8 @@
     <option>Otra</option>
   </select>
 
-  <label>URL o ruta de la imagen (ej: img/nombre-archivo.jpg)</label>
-  <input type="text" id="imagen" placeholder="img/placeholder.jpg">
+  <label>Foto de la nota</label>
+  <input type="file" id="imagen" accept="image/*">
 
   <div class="fila-check">
     <input type="checkbox" id="destacada">
@@ -93,49 +92,83 @@
     <label style="margin:0;">Es una columna de opinión</label>
   </div>
 
-  <label id="label-autor" style="display:none;">ID del columnista (ver data/columnistas.json)</label>
+  <label id="label-autor" style="display:none;">ID del columnista (ver tabla columnistas)</label>
   <input type="text" id="autorId" style="display:none;" placeholder="autor-001">
 
   <div>
-    <button class="accion" id="generar">Generar JSON</button>
+    <button class="accion" id="publicar">Publicar nota</button>
   </div>
 
-  <div id="salida" style="display:none;">
-    <label>Resultado — copiá y pegá en data/notas.json</label>
-    <textarea id="resultado" readonly></textarea>
-    <button class="accion secundaria" id="copiar">Copiar</button>
-  </div>
+  <div class="estado" id="estado"></div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-init.js"></script>
 <script>
 document.getElementById("esColumna").addEventListener("change", (e) => {
   document.getElementById("label-autor").style.display = e.target.checked ? "block" : "none";
   document.getElementById("autorId").style.display = e.target.checked ? "block" : "none";
 });
 
-document.getElementById("generar").addEventListener("click", () => {
-  const id = "nota-" + Date.now();
-  const nota = {
-    id,
-    titulo: document.getElementById("titulo").value.trim(),
-    bajada: document.getElementById("bajada").value.trim(),
-    cuerpo: document.getElementById("cuerpo").value.trim(),
-    categoria: document.getElementById("categoria").value,
-    localidad: document.getElementById("localidad").value,
-    imagen: document.getElementById("imagen").value.trim() || "img/placeholder.jpg",
-    fecha: new Date().toISOString(),
-    destacada: document.getElementById("destacada").checked,
-    esColumna: document.getElementById("esColumna").checked,
-    autorId: document.getElementById("esColumna").checked ? (document.getElementById("autorId").value.trim() || null) : null
-  };
-  document.getElementById("resultado").value = JSON.stringify(nota, null, 2) + ",";
-  document.getElementById("salida").style.display = "block";
-});
+document.getElementById("publicar").addEventListener("click", async () => {
+  const btn = document.getElementById("publicar");
+  const estado = document.getElementById("estado");
+  estado.className = "estado";
+  estado.textContent = "";
 
-document.getElementById("copiar").addEventListener("click", () => {
-  const ta = document.getElementById("resultado");
-  ta.select();
-  document.execCommand("copy");
+  const titulo = document.getElementById("titulo").value.trim();
+  if (!titulo) {
+    estado.className = "estado error";
+    estado.textContent = "Falta el título.";
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Publicando...";
+
+  try {
+    let imagenUrl = "";
+    const archivo = document.getElementById("imagen").files[0];
+    if (archivo) {
+      const nombreArchivo = `${Date.now()}-${archivo.name.replace(/\s+/g, "-")}`;
+      const { error: errorSubida } = await sbClient.storage.from("img").upload(nombreArchivo, archivo);
+      if (errorSubida) throw errorSubida;
+      const { data: urlData } = sbClient.storage.from("img").getPublicUrl(nombreArchivo);
+      imagenUrl = urlData.publicUrl;
+    }
+
+    const id = "nota-" + Date.now();
+    const nota = {
+      id,
+      titulo,
+      bajada: document.getElementById("bajada").value.trim(),
+      cuerpo: document.getElementById("cuerpo").value.trim(),
+      categoria: document.getElementById("categoria").value,
+      localidad: document.getElementById("localidad").value,
+      imagen: imagenUrl,
+      fecha: new Date().toISOString(),
+      destacada: document.getElementById("destacada").checked,
+      es_columna: document.getElementById("esColumna").checked,
+      autor_id: document.getElementById("esColumna").checked ? (document.getElementById("autorId").value.trim() || null) : null
+    };
+
+    const { error: errorInsert } = await sbClient.from("notas").insert([nota]);
+    if (errorInsert) throw errorInsert;
+
+    estado.className = "estado ok";
+    estado.textContent = "Nota publicada. Ya está visible en el sitio.";
+    document.getElementById("titulo").value = "";
+    document.getElementById("bajada").value = "";
+    document.getElementById("cuerpo").value = "";
+    document.getElementById("imagen").value = "";
+    document.getElementById("destacada").checked = false;
+  } catch (err) {
+    estado.className = "estado error";
+    estado.textContent = "Error al publicar: " + (err.message || err);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Publicar nota";
+  }
 });
 </script>
 </body>
