@@ -1,0 +1,80 @@
+[
+  {
+    "id": "nota-001",
+    "titulo": "Título de ejemplo: reemplazar por la nota real",
+    "bajada": "Bajada corta de la nota, un resumen de una línea.",
+    "cuerpo": "<p>Acá va el cuerpo completo de la nota en párrafos HTML simples.</p><p>Otro párrafo de ejemplo.</p>",
+    "categoria": "Política",
+    "localidad": "La Rioja Capital",
+    "imagen": "img/placeholder.jpg",
+    "fecha": "2026-08-14T10:00:00",
+    "destacada": true,
+    "esColumna": false,
+    "autorId": null
+  },
+  {
+    "id": "nota-002",
+    "titulo": "Segunda nota de ejemplo",
+    "bajada": "Bajada de la segunda nota.",
+    "cuerpo": "<p>Cuerpo de la nota 2.</p>",
+    "categoria": "Economía",
+    "localidad": "La Rioja Capital",
+    "imagen": "img/placeholder.jpg",
+    "fecha": "2026-08-14T09:00:00",
+    "destacada": false,
+    "esColumna": false,
+    "autorId": null
+  },
+  {
+    "id": "nota-003",
+    "titulo": "Nota de ejemplo desde Chilecito",
+    "bajada": "Bajada de una nota regional del oeste.",
+    "cuerpo": "<p>Cuerpo de la nota regional.</p>",
+    "categoria": "Sociedad",
+    "localidad": "Chilecito",
+    "imagen": "img/placeholder.jpg",
+    "fecha": "2026-08-13T18:00:00",
+    "destacada": false,
+    "esColumna": false,
+    "autorId": null
+  },
+  {
+    "id": "nota-004",
+    "titulo": "Nota de ejemplo desde Aimogasta",
+    "bajada": "Bajada de una nota regional del norte.",
+    "cuerpo": "<p>Cuerpo de la nota regional del norte.</p>",
+    "categoria": "Deportes",
+    "localidad": "Aimogasta",
+    "imagen": "img/placeholder.jpg",
+    "fecha": "2026-08-13T15:00:00",
+    "destacada": false,
+    "esColumna": false,
+    "autorId": null
+  },
+  {
+    "id": "nota-005",
+    "titulo": "Nota de ejemplo desde Chamical",
+    "bajada": "Bajada de una nota de los llanos.",
+    "cuerpo": "<p>Cuerpo de la nota de los llanos.</p>",
+    "categoria": "Judiciales",
+    "localidad": "Chamical",
+    "imagen": "img/placeholder.jpg",
+    "fecha": "2026-08-13T12:00:00",
+    "destacada": false,
+    "esColumna": false,
+    "autorId": null
+  },
+  {
+    "id": "columna-001",
+    "titulo": "Título de ejemplo de una columna de opinión",
+    "bajada": "Frase o bajada destacada de la columna.",
+    "cuerpo": "<p>Cuerpo de la columna de opinión.</p>",
+    "categoria": "Opinión",
+    "localidad": "La Rioja Capital",
+    "imagen": "img/placeholder.jpg",
+    "fecha": "2026-08-12T09:00:00",
+    "destacada": false,
+    "esColumna": true,
+    "autorId": "autor-001"
+  }
+]
