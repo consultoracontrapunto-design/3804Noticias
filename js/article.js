@@ -1,12 +1,14 @@
 async function init() {
   const params = new URLSearchParams(location.search);
   const id = params.get("id");
-  const [notas, columnistas] = await Promise.all([
-    fetch("data/notas.json").then((r) => r.json()),
-    fetch("data/columnistas.json").then((r) => r.json()),
+
+  const [notaRes, columnistasRes] = await Promise.all([
+    sbClient.from("notas").select("*").eq("id", id).single(),
+    sbClient.from("columnistas").select("*"),
   ]);
 
-  const nota = notas.find((n) => n.id === id);
+  const nota = notaRes.data;
+  const columnistas = columnistasRes.data || [];
   const wrap = document.getElementById("nota-contenido");
 
   if (!nota) {
@@ -15,8 +17,8 @@ async function init() {
   }
 
   let autorHtml = "";
-  if (nota.esColumna) {
-    const autor = columnistas.find((c) => c.id === nota.autorId);
+  if (nota.es_columna) {
+    const autor = columnistas.find((c) => c.id === nota.autor_id);
     if (autor) {
       autorHtml = `<div class="card-columna" style="margin:12px;">
         <div class="avatar">${autor.foto ? `<img src="${autor.foto}" alt="">` : ""}</div>
