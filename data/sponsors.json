@@ -1,0 +1,34 @@
+[
+  {
+    "id": "sponsor-top",
+    "posicion": "top",
+    "nombre": "Nombre del sponsor",
+    "imagen": "img/placeholder-sponsor.jpg",
+    "link": "https://ejemplo.com",
+    "activo": false
+  },
+  {
+    "id": "sponsor-post-destacada",
+    "posicion": "post-destacada",
+    "nombre": "Nombre del sponsor",
+    "imagen": "img/placeholder-sponsor.jpg",
+    "link": "https://ejemplo.com",
+    "activo": false
+  },
+  {
+    "id": "sponsor-intercalado",
+    "posicion": "intercalado",
+    "nombre": "Nombre del sponsor",
+    "imagen": "img/placeholder-sponsor.jpg",
+    "link": "https://ejemplo.com",
+    "activo": false
+  },
+  {
+    "id": "sponsor-sidebar",
+    "posicion": "sidebar",
+    "nombre": "Nombre del sponsor",
+    "imagen": "img/placeholder-sponsor.jpg",
+    "link": "https://ejemplo.com",
+    "activo": false
+  }
+]
