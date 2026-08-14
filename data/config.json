@@ -1,0 +1,21 @@
+{
+  "categorias": ["Política", "Judiciales", "Economía", "Sociedad", "Deportes", "Cultura", "Opinión"],
+  "zonas": {
+    "centro": {
+      "nombre": "Edición Centro",
+      "localidades": ["La Rioja Capital", "Sanagasta"]
+    },
+    "oeste": {
+      "nombre": "Edición Oeste",
+      "localidades": ["Chilecito", "Villa Unión", "Villa Castelli", "Vinchina", "Famatina", "Chañarmuyo"]
+    },
+    "norte": {
+      "nombre": "Edición Norte",
+      "localidades": ["Aimogasta", "San Blas de los Sauces", "Castro Barros"]
+    },
+    "llanos": {
+      "nombre": "Edición Llanos",
+      "localidades": ["Chamical", "Chepes", "Ulapes", "Otra"]
+    }
+  }
+}
