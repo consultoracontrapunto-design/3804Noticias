@@ -1,0 +1,9 @@
+[
+  {
+    "id": "autor-001",
+    "nombre": "Nombre del columnista",
+    "foto": "img/placeholder-autor.jpg",
+    "area": "Política",
+    "bio": "Breve biografía del columnista, dos o tres líneas sobre su trayectoria."
+  }
+]
