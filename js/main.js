@@ -1,8 +1,3 @@
-async function cargarJSON(ruta) {
-  const res = await fetch(ruta);
-  return res.json();
-}
-
 function fechaRelativa(iso) {
   const diffMs = Date.now() - new Date(iso).getTime();
   const horas = Math.floor(diffMs / 3600000);
@@ -25,7 +20,7 @@ function cardNota(nota) {
 }
 
 function cardColumna(nota, autoresPorId) {
-  const autor = autoresPorId[nota.autorId] || { nombre: "Columnista", foto: "" };
+  const autor = autoresPorId[nota.autor_id] || { nombre: "Columnista", foto: "" };
   const a = document.createElement("a");
   a.href = `article.html?id=${nota.id}`;
   a.className = "card-columna";
@@ -33,7 +28,7 @@ function cardColumna(nota, autoresPorId) {
     <div class="avatar">${autor.foto ? `<img src="${autor.foto}" alt="">` : ""}</div>
     <div>
       <h3>${nota.titulo}</h3>
-      <p>${nota.bajada}</p>
+      <p>${nota.bajada || ""}</p>
       <div class="autor">${autor.nombre} · ${nota.categoria}</div>
     </div>
   `;
@@ -52,12 +47,15 @@ function sponsorBlock(sponsor) {
 }
 
 async function init() {
-  const [notas, sponsors, columnistas, config] = await Promise.all([
-    cargarJSON("data/notas.json"),
-    cargarJSON("data/sponsors.json"),
-    cargarJSON("data/columnistas.json"),
-    cargarJSON("data/config.json"),
+  const [notasRes, sponsorsRes, columnistasRes] = await Promise.all([
+    sbClient.from("notas").select("*"),
+    sbClient.from("sponsors").select("*"),
+    sbClient.from("columnistas").select("*"),
   ]);
+
+  const notas = notasRes.data || [];
+  const sponsors = sponsorsRes.data || [];
+  const columnistas = columnistasRes.data || [];
 
   const autoresPorId = Object.fromEntries(columnistas.map((c) => [c.id, c]));
   const sponsorsPorPos = Object.fromEntries(sponsors.map((s) => [s.posicion, s]));
@@ -78,7 +76,7 @@ async function init() {
   });
   if (sessionStorage.getItem("sponsorTopCerrado") === "1") topBar.classList.add("oculto");
 
-  const destacada = notas.find((n) => n.destacada && !n.esColumna) || notas.find((n) => !n.esColumna);
+  const destacada = notas.find((n) => n.destacada && !n.es_columna) || notas.find((n) => !n.es_columna);
   const destWrap = document.getElementById("destacada");
   if (destacada) {
     destWrap.innerHTML = `
@@ -92,7 +90,7 @@ async function init() {
       </a>`;
   }
 
-  const restoNotas = notas.filter((n) => n.id !== destacada?.id && !n.esColumna);
+  const restoNotas = notas.filter((n) => n.id !== destacada?.id && !n.es_columna);
   const grid1 = document.getElementById("grid-ultimas");
   restoNotas.slice(0, 4).forEach((n) => grid1.appendChild(cardNota(n)));
 
@@ -107,7 +105,7 @@ async function init() {
 
   function renderRegionales(filtro) {
     gridRegionales.innerHTML = "";
-    const lista = notas.filter((n) => !n.esColumna && (filtro === "Todas" || n.localidad === filtro));
+    const lista = notas.filter((n) => !n.es_columna && (filtro === "Todas" || n.localidad === filtro));
     lista.slice(0, 8).forEach((n) => gridRegionales.appendChild(cardNota(n)));
   }
 
@@ -126,7 +124,7 @@ async function init() {
 
   document.getElementById("espacio-intercalado").appendChild(sponsorBlock(sponsorsPorPos["intercalado"]));
 
-  const columnas = notas.filter((n) => n.esColumna);
+  const columnas = notas.filter((n) => n.es_columna);
   const wrapColumnas = document.getElementById("lista-columnas");
   columnas.slice(0, 3).forEach((n) => wrapColumnas.appendChild(cardColumna(n, autoresPorId)));
 
