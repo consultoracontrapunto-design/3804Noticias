@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3804 Noticias</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/iconfont/tabler-icons.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="container">
+    <a href="index.html" class="logo">380<span class="num4">4</span><span class="marca">Noticias</span></a>
+  </div>
+</header>
+
+<div class="seccion-titulo" id="titulo-cat">Sección</div>
+<div class="grid-notas" id="grid-seccion"></div>
+
+<footer>
+  <a href="#" aria-label="Facebook"><i class="ti ti-brand-facebook"></i></a>
+  <a href="#" aria-label="Instagram"><i class="ti ti-brand-instagram"></i></a>
+  <a href="#" aria-label="YouTube"><i class="ti ti-brand-youtube"></i></a>
+  <span class="handle">/3804noticias</span>
+</footer>
+
+<script>
+async function init() {
+  const params = new URLSearchParams(location.search);
+  const cat = params.get("cat") || "";
+  document.getElementById("titulo-cat").textContent = cat || "Sección";
+  const notas = await fetch("data/notas.json").then((r) => r.json());
+  const grid = document.getElementById("grid-seccion");
+  notas
+    .filter((n) => n.categoria === cat)
+    .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+    .forEach((n) => {
+      const a = document.createElement("a");
+      a.href = `article.html?id=${n.id}`;
+      a.className = "card-nota";
+      a.innerHTML = `
+        <div class="media">${n.imagen ? `<img src="${n.imagen}" alt="">` : "sin imagen"}</div>
+        <h3>${n.titulo}</h3>
+        <div class="cat">${n.localidad}</div>`;
+      grid.appendChild(a);
+    });
+}
+init();
+</script>
+</body>
+</html>

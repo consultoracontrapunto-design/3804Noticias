@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3804 Noticias — La información que importa</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/iconfont/tabler-icons.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Sponsor top, cerrable -->
+<div class="sponsor-top" id="sponsor-top">
+  <span class="etiqueta">Sponsor</span>
+  <a href="#" id="sponsor-top-link" target="_blank" rel="noopener"><span id="sponsor-top-nombre">Espacio disponible</span></a>
+  <button class="cerrar" id="cerrar-sponsor-top" aria-label="Cerrar">✕</button>
+</div>
+
+<!-- Header -->
+<header class="masthead">
+  <div class="container">
+    <a href="index.html" class="logo">380<span class="num4">4</span><span class="marca">Noticias</span></a>
+    <button class="menu-toggle" aria-label="Menú"><i class="ti ti-menu-2"></i></button>
+  </div>
+</header>
+
+<!-- Navegación de secciones -->
+<nav class="secciones">
+  <div class="container">
+    <a href="index.html" class="activo">Portada</a>
+    <a href="seccion.html?cat=Política">Política</a>
+    <a href="seccion.html?cat=Judiciales">Judiciales</a>
+    <a href="seccion.html?cat=Economía">Economía</a>
+    <a href="seccion.html?cat=Sociedad">Sociedad</a>
+    <a href="seccion.html?cat=Deportes">Deportes</a>
+    <a href="seccion.html?cat=Cultura">Cultura</a>
+    <a href="index.html#regionales">Regionales</a>
+    <a href="index.html#columnistas">Columnistas</a>
+  </div>
+</nav>
+
+<div class="container layout-desktop">
+<main>
+
+  <!-- Nota destacada -->
+  <section class="destacada" id="destacada"></section>
+
+  <!-- Últimas noticias (4 notas) -->
+  <div class="seccion-titulo">Últimas noticias</div>
+  <div class="grid-notas" id="grid-ultimas"></div>
+
+  <!-- Sponsor post-destacada -->
+  <div id="espacio-post-destacada"></div>
+
+  <!-- Más notas -->
+  <div class="grid-notas" id="grid-mas-notas"></div>
+
+  <!-- Regionales -->
+  <section id="regionales">
+    <div class="seccion-titulo">Regionales</div>
+    <div class="filtros" id="filtros-localidad"></div>
+    <div class="grid-notas" id="grid-regionales"></div>
+  </section>
+
+  <!-- Sponsor intercalado -->
+  <div id="espacio-intercalado"></div>
+
+  <!-- Columnistas -->
+  <section id="columnistas">
+    <div class="seccion-titulo">Columnistas</div>
+    <div id="lista-columnas"></div>
+    <div class="directorio-autores" id="directorio-autores"></div>
+  </section>
+
+  <!-- Más leídas (versión mobile, dentro del flujo) -->
+  <section class="mas-leidas">
+    <div class="seccion-titulo" style="margin-left:0;">Más leídas</div>
+    <ol id="lista-mas-leidas"></ol>
+  </section>
+
+</main>
+
+<!-- Sidebar sponsor, solo visible en desktop -->
+<aside class="sidebar-sponsor" id="sidebar-sponsor"></aside>
+
+</div>
+
+<footer>
+  <a href="#" aria-label="Facebook"><i class="ti ti-brand-facebook"></i></a>
+  <a href="#" aria-label="Instagram"><i class="ti ti-brand-instagram"></i></a>
+  <a href="#" aria-label="YouTube"><i class="ti ti-brand-youtube"></i></a>
+  <span class="handle">/3804noticias</span>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

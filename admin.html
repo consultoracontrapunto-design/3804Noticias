@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cargar nota — 3804 Noticias</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .form-wrap{max-width:640px;margin:0 auto;padding:16px;}
+  label{display:block;font-size:12px;color:var(--text-secondary);margin:14px 0 4px;}
+  input[type=text],input[type=url],input[type=datetime-local],textarea,select{
+    width:100%;background:var(--bg-card);border:1px solid var(--border);color:var(--text);
+    padding:9px 10px;border-radius:var(--radius);font-size:14px;font-family:inherit;
+  }
+  textarea{min-height:110px;resize:vertical;}
+  .fila-check{display:flex;align-items:center;gap:8px;margin-top:14px;}
+  .fila-check input{width:auto;}
+  button.accion{
+    margin-top:16px;background:var(--red);color:#fff;border:none;
+    padding:11px 16px;border-radius:var(--radius);font-size:14px;cursor:pointer;margin-right:8px;
+  }
+  button.secundaria{background:var(--bg-card);border:1px solid var(--border);color:var(--text);}
+  #salida{margin-top:20px;}
+  #salida textarea{min-height:220px;font-family:monospace;font-size:12px;}
+  .aviso{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:12px;font-size:13px;color:var(--text-secondary);margin-bottom:10px;}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="container">
+    <a href="index.html" class="logo">380<span class="num4">4</span><span class="marca">Noticias</span> <span class="marca">· Carga</span></a>
+  </div>
+</header>
+
+<div class="form-wrap">
+  <div class="aviso">
+    Este panel no publica solo: genera el bloque JSON de la nota. Copiás el resultado
+    y lo pegás dentro de <code>data/notas.json</code> (dentro de los corchetes, separado por coma
+    del resto de las notas). Guardás el archivo y subís los cambios — la nota aparece en el sitio.
+  </div>
+
+  <label>Título</label>
+  <input type="text" id="titulo">
+
+  <label>Bajada (una línea, resumen corto)</label>
+  <input type="text" id="bajada">
+
+  <label>Cuerpo (podés usar párrafos &lt;p&gt;...&lt;/p&gt;)</label>
+  <textarea id="cuerpo"></textarea>
+
+  <label>Categoría</label>
+  <select id="categoria">
+    <option>Política</option>
+    <option>Judiciales</option>
+    <option>Economía</option>
+    <option>Sociedad</option>
+    <option>Deportes</option>
+    <option>Cultura</option>
+    <option>Opinión</option>
+  </select>
+
+  <label>Localidad</label>
+  <select id="localidad">
+    <option>La Rioja Capital</option>
+    <option>Sanagasta</option>
+    <option>Chilecito</option>
+    <option>Villa Unión</option>
+    <option>Villa Castelli</option>
+    <option>Vinchina</option>
+    <option>Famatina</option>
+    <option>Chañarmuyo</option>
+    <option>Aimogasta</option>
+    <option>San Blas de los Sauces</option>
+    <option>Castro Barros</option>
+    <option>Chamical</option>
+    <option>Chepes</option>
+    <option>Ulapes</option>
+    <option>Otra</option>
+  </select>
+
+  <label>URL o ruta de la imagen (ej: img/nombre-archivo.jpg)</label>
+  <input type="text" id="imagen" placeholder="img/placeholder.jpg">
+
+  <div class="fila-check">
+    <input type="checkbox" id="destacada">
+    <label style="margin:0;">Marcar como nota destacada de portada</label>
+  </div>
+
+  <div class="fila-check">
+    <input type="checkbox" id="esColumna">
+    <label style="margin:0;">Es una columna de opinión</label>
+  </div>
+
+  <label id="label-autor" style="display:none;">ID del columnista (ver data/columnistas.json)</label>
+  <input type="text" id="autorId" style="display:none;" placeholder="autor-001">
+
+  <div>
+    <button class="accion" id="generar">Generar JSON</button>
+  </div>
+
+  <div id="salida" style="display:none;">
+    <label>Resultado — copiá y pegá en data/notas.json</label>
+    <textarea id="resultado" readonly></textarea>
+    <button class="accion secundaria" id="copiar">Copiar</button>
+  </div>
+</div>
+
+<script>
+document.getElementById("esColumna").addEventListener("change", (e) => {
+  document.getElementById("label-autor").style.display = e.target.checked ? "block" : "none";
+  document.getElementById("autorId").style.display = e.target.checked ? "block" : "none";
+});
+
+document.getElementById("generar").addEventListener("click", () => {
+  const id = "nota-" + Date.now();
+  const nota = {
+    id,
+    titulo: document.getElementById("titulo").value.trim(),
+    bajada: document.getElementById("bajada").value.trim(),
+    cuerpo: document.getElementById("cuerpo").value.trim(),
+    categoria: document.getElementById("categoria").value,
+    localidad: document.getElementById("localidad").value,
+    imagen: document.getElementById("imagen").value.trim() || "img/placeholder.jpg",
+    fecha: new Date().toISOString(),
+    destacada: document.getElementById("destacada").checked,
+    esColumna: document.getElementById("esColumna").checked,
+    autorId: document.getElementById("esColumna").checked ? (document.getElementById("autorId").value.trim() || null) : null
+  };
+  document.getElementById("resultado").value = JSON.stringify(nota, null, 2) + ",";
+  document.getElementById("salida").style.display = "block";
+});
+
+document.getElementById("copiar").addEventListener("click", () => {
+  const ta = document.getElementById("resultado");
+  ta.select();
+  document.execCommand("copy");
+});
+</script>
+</body>
+</html>
