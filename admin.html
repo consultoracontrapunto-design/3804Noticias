@@ -131,9 +131,9 @@ document.getElementById("publicar").addEventListener("click", async () => {
     const archivo = document.getElementById("imagen").files[0];
     if (archivo) {
       const nombreArchivo = `${Date.now()}-${archivo.name.replace(/\s+/g, "-")}`;
-      const { error: errorSubida } = await sbClient.storage.from("img").upload(nombreArchivo, archivo);
+      const { error: errorSubida } = await sbClient.storage.from("IMG").upload(nombreArchivo, archivo);
       if (errorSubida) throw errorSubida;
-      const { data: urlData } = sbClient.storage.from("img").getPublicUrl(nombreArchivo);
+      const { data: urlData } = sbClient.storage.from("IMG").getPublicUrl(nombreArchivo);
       imagenUrl = urlData.publicUrl;
     }
 
