@@ -57,7 +57,7 @@
     <option>Sociedad</option>
     <option>Deportes</option>
     <option>Cultura</option>
-    <option>Opinión</option>
+    <option>Editoriales</option>
   </select>
 
   <label>Localidad</label>
@@ -89,11 +89,19 @@
 
   <div class="fila-check">
     <input type="checkbox" id="esColumna">
-    <label style="margin:0;">Es una columna de opinión</label>
+    <label style="margin:0;">Es una columna de opinión (de un columnista)</label>
   </div>
 
   <label id="label-autor" style="display:none;">ID del columnista (ver tabla columnistas)</label>
   <input type="text" id="autorId" style="display:none;" placeholder="autor-001">
+
+  <div class="fila-check">
+    <input type="checkbox" id="esCarta">
+    <label style="margin:0;">Es una carta de lectores</label>
+  </div>
+
+  <label id="label-autor-nombre" style="display:none;">Nombre del lector que escribe</label>
+  <input type="text" id="autorNombre" style="display:none;" placeholder="Ej: Juan Pérez">
 
   <div>
     <button class="accion" id="publicar">Publicar nota</button>
@@ -108,6 +116,11 @@
 document.getElementById("esColumna").addEventListener("change", (e) => {
   document.getElementById("label-autor").style.display = e.target.checked ? "block" : "none";
   document.getElementById("autorId").style.display = e.target.checked ? "block" : "none";
+});
+
+document.getElementById("esCarta").addEventListener("change", (e) => {
+  document.getElementById("label-autor-nombre").style.display = e.target.checked ? "block" : "none";
+  document.getElementById("autorNombre").style.display = e.target.checked ? "block" : "none";
 });
 
 document.getElementById("publicar").addEventListener("click", async () => {
@@ -149,7 +162,9 @@ document.getElementById("publicar").addEventListener("click", async () => {
       fecha: new Date().toISOString(),
       destacada: document.getElementById("destacada").checked,
       es_columna: document.getElementById("esColumna").checked,
-      autor_id: document.getElementById("esColumna").checked ? (document.getElementById("autorId").value.trim() || null) : null
+      autor_id: document.getElementById("esColumna").checked ? (document.getElementById("autorId").value.trim() || null) : null,
+      es_carta: document.getElementById("esCarta").checked,
+      autor_nombre: document.getElementById("esCarta").checked ? (document.getElementById("autorNombre").value.trim() || null) : null
     };
 
     const { error: errorInsert } = await sbClient.from("notas").insert([nota]);
