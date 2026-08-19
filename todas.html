@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Todas las noticias — 3804 Noticias</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/iconfont/tabler-icons.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="container">
+    <a href="index.html" class="menu-toggle" aria-label="Volver al inicio"><i class="ti ti-arrow-left"></i></a>
+    <a href="index.html" class="logo">380<span class="num4">4</span><span class="marca">Noticias</span></a>
+    <span></span>
+  </div>
+</header>
+
+<div class="seccion-titulo" style="margin-top:20px;">Todas las noticias</div>
+<div class="grid-notas" id="grid-todas"></div>
+
+<footer>
+  <a href="#" aria-label="Facebook"><i class="ti ti-brand-facebook"></i></a>
+  <a href="#" aria-label="Instagram"><i class="ti ti-brand-instagram"></i></a>
+  <a href="#" aria-label="YouTube"><i class="ti ti-brand-youtube"></i></a>
+  <span class="handle">/3804noticias</span>
+</footer>
+
+<div class="overlay-secciones" id="overlay-secciones">
+  <div class="panel-secciones">
+    <button class="cerrar-menu">✕</button>
+    <h3>Secciones</h3>
+    <a href="seccion.html?cat=Política">Política</a>
+    <a href="seccion.html?cat=Judiciales">Judiciales</a>
+    <a href="seccion.html?cat=Economía">Economía</a>
+    <a href="seccion.html?cat=Sociedad">Sociedad</a>
+    <a href="seccion.html?cat=Deportes">Deportes</a>
+    <a href="seccion.html?cat=Cultura">Cultura</a>
+    <a href="index.html#regionales">Regionales</a>
+    <a href="opinion.html">Opinión</a>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i class="ti ti-home"></i>Inicio</a>
+  <a href="#" id="btn-secciones"><i class="ti ti-category"></i>Secciones</a>
+  <a href="opinion.html"><i class="ti ti-feather"></i>Opinión</a>
+  <a href="https://wa.me/5493804844173?text=Hola%203804%20Noticias%2C%20quer%C3%ADa%20comunicarme%20por..." target="_blank" rel="noopener"><i class="ti ti-brand-whatsapp"></i>Contacto</a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-init.js"></script>
+<script src="js/menu-secciones.js"></script>
+<script>
+async function init() {
+  const { data: notas } = await sbClient.from("notas").select("*");
+  const grid = document.getElementById("grid-todas");
+  (notas || [])
+    .filter((n) => !n.es_columna && !n.es_carta)
+    .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+    .forEach((n) => {
+      const a = document.createElement("a");
+      a.href = `article.html?id=${n.id}`;
+      a.className = "card-nota";
+      a.innerHTML = `
+        <div class="media">${n.imagen ? `<img src="${n.imagen}" alt="">` : "sin imagen"}</div>
+        <h3>${n.titulo}</h3>
+        <div class="cat">${n.categoria}</div>`;
+      grid.appendChild(a);
+    });
+}
+init();
+</script>
+</body>
+</html>
