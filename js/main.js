@@ -23,7 +23,7 @@ function cardColumna(nota, autoresPorId) {
   const autor = autoresPorId[nota.autor_id] || { nombre: "Columnista", foto: "" };
   const a = document.createElement("a");
   a.href = `article.html?id=${nota.id}`;
-  a.className = "card-columna";
+  a.className = "card-columna-grande";
   a.innerHTML = `
     <div class="avatar">${autor.foto ? `<img src="${autor.foto}" alt="">` : ""}</div>
     <div>
@@ -128,13 +128,7 @@ async function init() {
   const wrapColumnas = document.getElementById("lista-columnas");
   columnas.slice(0, 3).forEach((n) => wrapColumnas.appendChild(cardColumna(n, autoresPorId)));
 
-  const dirAutores = document.getElementById("directorio-autores");
-  columnistas.forEach((c) => {
-    const div = document.createElement("a");
-    div.href = `columnista.html?id=${c.id}`;
-    div.className = "autor-mini";
-    div.innerHTML = `<div class="avatar">${c.foto ? `<img src="${c.foto}" alt="">` : ""}</div><span>${c.nombre}</span>`;
-    dirAutores.appendChild(div);
+  
   });
 
   const masLeidas = document.getElementById("lista-mas-leidas");
