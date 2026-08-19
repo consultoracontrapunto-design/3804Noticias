@@ -9,23 +9,23 @@
 </head>
 <body>
 
-<!-- Sponsor top, cerrable -->
+<div class="franja-clima" id="franja-clima"><i class="ti ti-clock"></i>Cargando hora y clima...</div>
+
 <div class="sponsor-top" id="sponsor-top">
   <span class="etiqueta">Sponsor</span>
   <a href="#" id="sponsor-top-link" target="_blank" rel="noopener"><span id="sponsor-top-nombre">Espacio disponible</span></a>
   <button class="cerrar" id="cerrar-sponsor-top" aria-label="Cerrar">✕</button>
 </div>
 
-<!-- Header -->
 <header class="masthead">
   <div class="container">
-    <a href="index.html" class="logo">380<span class="num4">4</span><span class="marca">Noticias</span></a>
     <button class="menu-toggle" aria-label="Menú"><i class="ti ti-menu-2"></i></button>
+    <a href="index.html" class="logo">380<span class="num4">4</span><span class="marca">Noticias</span></a>
+    <button class="header-icon" aria-label="Buscar"><i class="ti ti-search"></i></button>
   </div>
 </header>
 
-<!-- Navegación de secciones -->
-<nav class="secciones">
+<nav class="secciones" id="secciones">
   <div class="container">
     <a href="index.html" class="activo">Portada</a>
     <a href="seccion.html?cat=Política">Política</a>
@@ -35,44 +35,42 @@
     <a href="seccion.html?cat=Deportes">Deportes</a>
     <a href="seccion.html?cat=Cultura">Cultura</a>
     <a href="index.html#regionales">Regionales</a>
-    <a href="index.html#columnistas">Columnistas</a>
+    <a href="index.html#columnistas">Opinión</a>
   </div>
 </nav>
 
 <div class="container layout-desktop">
 <main>
 
-  <!-- Nota destacada -->
   <section class="destacada" id="destacada"></section>
 
-  <!-- Últimas noticias (4 notas) -->
   <div class="seccion-titulo">Últimas noticias</div>
   <div class="grid-notas" id="grid-ultimas"></div>
 
-  <!-- Sponsor post-destacada -->
+  <section class="seccion-opinion" id="columnistas">
+    <div class="encabezado">
+      <h2>Opinión</h2>
+      <p>Columnistas y voces de análisis de 3804 Noticias</p>
+    </div>
+    <div id="lista-columnas"></div>
+    <div class="cta-columnista">
+      <p>¿Tenés algo para decir? Sumate como columnista de 3804 Noticias.</p>
+      <a href="https://wa.me/5493804844173?text=Hola%2C%20quiero%20ser%20columnista%20en%203804%20Noticias" target="_blank" rel="noopener">Quiero escribir</a>
+    </div>
+  </section>
+
   <div id="espacio-post-destacada"></div>
 
-  <!-- Más notas -->
   <div class="grid-notas" id="grid-mas-notas"></div>
 
-  <!-- Regionales -->
   <section id="regionales">
     <div class="seccion-titulo">Regionales</div>
     <div class="filtros" id="filtros-localidad"></div>
     <div class="grid-notas" id="grid-regionales"></div>
   </section>
 
-  <!-- Sponsor intercalado -->
   <div id="espacio-intercalado"></div>
 
-  <!-- Columnistas -->
-  <section id="columnistas">
-    <div class="seccion-titulo">Columnistas</div>
-    <div id="lista-columnas"></div>
-    <div class="directorio-autores" id="directorio-autores"></div>
-  </section>
-
-  <!-- Más leídas (versión mobile, dentro del flujo) -->
   <section class="mas-leidas">
     <div class="seccion-titulo" style="margin-left:0;">Más leídas</div>
     <ol id="lista-mas-leidas"></ol>
@@ -80,7 +78,6 @@
 
 </main>
 
-<!-- Sidebar sponsor, solo visible en desktop -->
 <aside class="sidebar-sponsor" id="sidebar-sponsor"></aside>
 
 </div>
@@ -92,8 +89,16 @@
   <span class="handle">/3804noticias</span>
 </footer>
 
+<nav class="bottom-nav">
+  <a href="index.html" class="activo"><i class="ti ti-home"></i>Inicio</a>
+  <a href="index.html#secciones"><i class="ti ti-category"></i>Secciones</a>
+  <a href="index.html#columnistas"><i class="ti ti-feather"></i>Opinión</a>
+  <a href="https://wa.me/5493804844173" target="_blank" rel="noopener"><i class="ti ti-brand-whatsapp"></i>Contacto</a>
+</nav>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase-init.js"></script>
+<script src="js/weather.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
