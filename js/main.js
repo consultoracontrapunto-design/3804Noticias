@@ -56,28 +56,53 @@ async function init() {
   });
   if (sessionStorage.getItem("sponsorTopCerrado") === "1") topBar.classList.add("oculto");
 
-  const destacada = notas.find((n) => n.destacada) || notas[0];
-  const destWrap = document.getElementById("destacada");
-  if (destacada) {
-    destWrap.innerHTML = `
-      <a href="article.html?id=${destacada.id}" style="color:inherit;">
-        <div class="media">${destacada.imagen ? `<img src="${destacada.imagen}" alt="">` : "sin imagen"}</div>
+  // Carrusel de destacadas: hasta 4 notas marcadas como destacada, o las 4 más recientes si no hay ninguna marcada
+  let destacadas = notas.filter((n) => n.destacada).slice(0, 4);
+  if (destacadas.length === 0) destacadas = notas.slice(0, 1);
+
+  const carrusel = document.getElementById("carrusel-destacada");
+  const dotsWrap = document.getElementById("dots-destacada");
+
+  destacadas.forEach((nota, i) => {
+    const slide = document.createElement("div");
+    slide.className = "slide";
+    slide.innerHTML = `
+      <a href="article.html?id=${nota.id}" style="color:inherit;">
+        <div class="media">${nota.imagen ? `<img src="${nota.imagen}" alt="">` : "sin imagen"}</div>
         <div class="info">
-          <span class="tag">${destacada.categoria}</span>
-          <h1>${destacada.titulo}</h1>
-          <div class="meta">${fechaRelativa(destacada.fecha)} · ${destacada.localidad}</div>
+          <span class="tag">${nota.categoria}</span>
+          <h1>${nota.titulo}</h1>
+          <div class="meta">${fechaRelativa(nota.fecha)} · ${nota.localidad}</div>
         </div>
       </a>`;
+    carrusel.appendChild(slide);
+
+    const dot = document.createElement("div");
+    dot.className = "dot" + (i === 0 ? " activo" : "");
+    dotsWrap.appendChild(dot);
+  });
+
+  if (destacadas.length > 1) {
+    carrusel.addEventListener("scroll", () => {
+      const index = Math.round(carrusel.scrollLeft / carrusel.offsetWidth);
+      document.querySelectorAll(".dot").forEach((d, i) => {
+        d.classList.toggle("activo", i === index);
+      });
+    });
+  } else {
+    dotsWrap.style.display = "none";
   }
 
-  const restoNotas = notas.filter((n) => n.id !== destacada?.id);
+  const idsDestacadas = destacadas.map((n) => n.id);
+  const restoNotas = notas.filter((n) => !idsDestacadas.includes(n.id));
+
   const grid1 = document.getElementById("grid-ultimas");
-  restoNotas.slice(0, 4).forEach((n) => grid1.appendChild(cardNota(n)));
+  restoNotas.slice(0, 10).forEach((n) => grid1.appendChild(cardNota(n)));
 
   document.getElementById("espacio-post-destacada").appendChild(sponsorBlock(sponsorsPorPos["post-destacada"]));
 
   const grid2 = document.getElementById("grid-mas-notas");
-  restoNotas.slice(4, 8).forEach((n) => grid2.appendChild(cardNota(n)));
+  restoNotas.slice(10, 14).forEach((n) => grid2.appendChild(cardNota(n)));
 
   const filtrosWrap = document.getElementById("filtros-localidad");
   const gridRegionales = document.getElementById("grid-regionales");
