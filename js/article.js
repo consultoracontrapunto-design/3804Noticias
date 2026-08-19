@@ -53,7 +53,7 @@ async function init() {
   document.title = `${nota.titulo} — 3804 Noticias`;
 
   function compartirWsp() {
-    const urlNota = `https://3804-noticias.vercel.app/nota/${nota.id}`;
+    const urlNota = `https://3804noticias.com/nota/${nota.id}`;
     const texto = `${nota.titulo}\n\n${urlNota}`;
     const urlWhatsapp = `https://wa.me/?text=${encodeURIComponent(texto)}`;
     window.open(urlWhatsapp, "_blank");
