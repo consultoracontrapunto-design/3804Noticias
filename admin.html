@@ -6,25 +6,51 @@
 <title>Cargar nota — 3804 Noticias</title>
 <link rel="stylesheet" href="css/style.css">
 <style>
-  .form-wrap{max-width:640px;margin:0 auto;padding:16px;}
-  label{display:block;font-size:12px;color:var(--text-secondary);margin:14px 0 4px;}
+  body{background:#f5f4f2;color:#1c1c1c;}
+
+  header.masthead{background:#ffffff;border-bottom:1px solid #e8e6e2;}
+  header.masthead .logo{color:#1c1c1c;}
+  header.masthead .logo .marca{color:#8a8a8a;}
+
+  .form-wrap{max-width:640px;margin:0 auto;padding:20px 16px 60px;}
+
+  .aviso{
+    background:#fff;border:1px solid #e8e6e2;border-left:3px solid var(--red);
+    border-radius:10px;padding:14px 16px;font-size:13px;color:#5c5c5c;margin-bottom:22px;line-height:1.5;
+  }
+
+  .campo{
+    background:#fff;border:1px solid #e8e6e2;border-radius:12px;
+    padding:16px;margin-bottom:14px;
+  }
+
+  label{display:block;font-size:12px;font-weight:600;color:#8a8a8a;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.3px;}
+
   input[type=text],input[type=url],input[type=file],textarea,select{
-    width:100%;background:var(--bg-card);border:1px solid var(--border);color:var(--text);
-    padding:9px 10px;border-radius:var(--radius);font-size:14px;font-family:inherit;
+    width:100%;background:#fafafa;border:1px solid #e0ddd8;color:#1c1c1c;
+    padding:10px 12px;border-radius:8px;font-size:15px;font-family:inherit;
+  }
+  input[type=text]:focus,textarea:focus,select:focus{
+    outline:none;border-color:var(--red);background:#fff;
   }
   textarea{min-height:110px;resize:vertical;}
-  .fila-check{display:flex;align-items:center;gap:8px;margin-top:14px;}
-  .fila-check input{width:auto;}
+
+  .fila-check{
+    display:flex;align-items:center;gap:10px;background:#fff;
+    border:1px solid #e8e6e2;border-radius:10px;padding:12px 14px;margin-bottom:10px;
+  }
+  .fila-check input{width:auto;accent-color:var(--red);}
+  .fila-check label{margin:0;text-transform:none;font-size:14px;font-weight:500;color:#1c1c1c;}
+
   button.accion{
-    margin-top:16px;background:var(--red);color:#fff;border:none;
-    padding:11px 16px;border-radius:var(--radius);font-size:14px;cursor:pointer;margin-right:8px;
+    width:100%;margin-top:8px;background:var(--red);color:#fff;border:none;
+    padding:14px 16px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;
   }
   button.accion:disabled{opacity:0.5;}
-  .aviso{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
-    padding:12px;font-size:13px;color:var(--text-secondary);margin-bottom:10px;}
-  .estado{margin-top:14px;font-size:13px;padding:10px;border-radius:var(--radius);display:none;}
-  .estado.ok{display:block;background:var(--bg-card);color:#4ade80;border:1px solid #4ade80;}
-  .estado.error{display:block;background:var(--bg-card);color:var(--red);border:1px solid var(--red);}
+
+  .estado{margin-top:14px;font-size:13px;padding:12px 14px;border-radius:10px;display:none;line-height:1.4;}
+  .estado.ok{display:block;background:#eafaf0;color:#1a7a42;border:1px solid #b7ecc8;}
+  .estado.error{display:block;background:#fdecec;color:var(--red-dark);border:1px solid #f3b9bb;}
 </style>
 </head>
 <body>
@@ -40,72 +66,86 @@
     Completá el formulario y tocá "Publicar nota" — se guarda directo en el sitio, sin pasos extra.
   </div>
 
-  <label>Título</label>
-  <input type="text" id="titulo">
+  <div class="campo">
+    <label>Título</label>
+    <input type="text" id="titulo">
+  </div>
 
-  <label>Bajada (una línea, resumen corto)</label>
-  <input type="text" id="bajada">
+  <div class="campo">
+    <label>Bajada (una línea, resumen corto)</label>
+    <input type="text" id="bajada">
+  </div>
 
-  <label>Cuerpo (podés usar párrafos &lt;p&gt;...&lt;/p&gt;)</label>
-  <textarea id="cuerpo"></textarea>
+  <div class="campo">
+    <label>Cuerpo (podés usar párrafos &lt;p&gt;...&lt;/p&gt;)</label>
+    <textarea id="cuerpo"></textarea>
+  </div>
 
-  <label>Categoría</label>
-  <select id="categoria">
-    <option>Política</option>
-    <option>Judiciales</option>
-    <option>Economía</option>
-    <option>Sociedad</option>
-    <option>Deportes</option>
-    <option>Cultura</option>
-    <option>Editoriales</option>
-  </select>
+  <div class="campo">
+    <label>Categoría</label>
+    <select id="categoria">
+      <option>Política</option>
+      <option>Judiciales</option>
+      <option>Economía</option>
+      <option>Sociedad</option>
+      <option>Deportes</option>
+      <option>Cultura</option>
+      <option>Editoriales</option>
+    </select>
+  </div>
 
-  <label>Localidad</label>
-  <select id="localidad">
-    <option>La Rioja Capital</option>
-    <option>Sanagasta</option>
-    <option>Chilecito</option>
-    <option>Villa Unión</option>
-    <option>Villa Castelli</option>
-    <option>Vinchina</option>
-    <option>Famatina</option>
-    <option>Chañarmuyo</option>
-    <option>Aimogasta</option>
-    <option>San Blas de los Sauces</option>
-    <option>Castro Barros</option>
-    <option>Chamical</option>
-    <option>Chepes</option>
-    <option>Ulapes</option>
-    <option>Otra</option>
-  </select>
+  <div class="campo">
+    <label>Localidad</label>
+    <select id="localidad">
+      <option>La Rioja Capital</option>
+      <option>Sanagasta</option>
+      <option>Chilecito</option>
+      <option>Villa Unión</option>
+      <option>Villa Castelli</option>
+      <option>Vinchina</option>
+      <option>Famatina</option>
+      <option>Chañarmuyo</option>
+      <option>Aimogasta</option>
+      <option>San Blas de los Sauces</option>
+      <option>Castro Barros</option>
+      <option>Chamical</option>
+      <option>Chepes</option>
+      <option>Ulapes</option>
+      <option>Otra</option>
+    </select>
+  </div>
 
-  <label>Foto de la nota</label>
-  <input type="file" id="imagen" accept="image/*">
+  <div class="campo">
+    <label>Foto de la nota</label>
+    <input type="file" id="imagen" accept="image/*">
+  </div>
 
   <div class="fila-check">
     <input type="checkbox" id="destacada">
-    <label style="margin:0;">Marcar como nota destacada de portada</label>
+    <label>Marcar como nota destacada de portada</label>
   </div>
 
   <div class="fila-check">
     <input type="checkbox" id="esColumna">
-    <label style="margin:0;">Es una columna de opinión (de un columnista)</label>
+    <label>Es una columna de opinión (de un columnista)</label>
   </div>
 
-  <label id="label-autor" style="display:none;">ID del columnista (ver tabla columnistas)</label>
-  <input type="text" id="autorId" style="display:none;" placeholder="autor-001">
+  <div class="campo" id="campo-autor" style="display:none;">
+    <label id="label-autor">ID del columnista (ver tabla columnistas)</label>
+    <input type="text" id="autorId" placeholder="autor-001">
+  </div>
 
   <div class="fila-check">
     <input type="checkbox" id="esCarta">
-    <label style="margin:0;">Es una carta de lectores</label>
+    <label>Es una carta de lectores</label>
   </div>
 
-  <label id="label-autor-nombre" style="display:none;">Nombre del lector que escribe</label>
-  <input type="text" id="autorNombre" style="display:none;" placeholder="Ej: Juan Pérez">
-
-  <div>
-    <button class="accion" id="publicar">Publicar nota</button>
+  <div class="campo" id="campo-autor-nombre" style="display:none;">
+    <label id="label-autor-nombre">Nombre del lector que escribe</label>
+    <input type="text" id="autorNombre" placeholder="Ej: Juan Pérez">
   </div>
+
+  <button class="accion" id="publicar">Publicar nota</button>
 
   <div class="estado" id="estado"></div>
 </div>
@@ -114,13 +154,11 @@
 <script src="js/supabase-init.js"></script>
 <script>
 document.getElementById("esColumna").addEventListener("change", (e) => {
-  document.getElementById("label-autor").style.display = e.target.checked ? "block" : "none";
-  document.getElementById("autorId").style.display = e.target.checked ? "block" : "none";
+  document.getElementById("campo-autor").style.display = e.target.checked ? "block" : "none";
 });
 
 document.getElementById("esCarta").addEventListener("change", (e) => {
-  document.getElementById("label-autor-nombre").style.display = e.target.checked ? "block" : "none";
-  document.getElementById("autorNombre").style.display = e.target.checked ? "block" : "none";
+  document.getElementById("campo-autor-nombre").style.display = e.target.checked ? "block" : "none";
 });
 
 document.getElementById("publicar").addEventListener("click", async () => {
