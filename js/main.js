@@ -128,9 +128,6 @@ async function init() {
   const wrapColumnas = document.getElementById("lista-columnas");
   columnas.slice(0, 3).forEach((n) => wrapColumnas.appendChild(cardColumna(n, autoresPorId)));
 
-  
-  });
-
   const masLeidas = document.getElementById("lista-mas-leidas");
   restoNotas.slice(0, 3).forEach((n) => {
     const li = document.createElement("li");
