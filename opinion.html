@@ -45,15 +45,31 @@
   <span class="handle">/3804noticias</span>
 </footer>
 
+<div class="overlay-secciones" id="overlay-secciones">
+  <div class="panel-secciones">
+    <button class="cerrar-menu">✕</button>
+    <h3>Secciones</h3>
+    <a href="seccion.html?cat=Política">Política</a>
+    <a href="seccion.html?cat=Judiciales">Judiciales</a>
+    <a href="seccion.html?cat=Economía">Economía</a>
+    <a href="seccion.html?cat=Sociedad">Sociedad</a>
+    <a href="seccion.html?cat=Deportes">Deportes</a>
+    <a href="seccion.html?cat=Cultura">Cultura</a>
+    <a href="index.html#regionales">Regionales</a>
+    <a href="opinion.html">Opinión</a>
+  </div>
+</div>
+
 <nav class="bottom-nav">
   <a href="index.html"><i class="ti ti-home"></i>Inicio</a>
-  <a href="index.html#secciones"><i class="ti ti-category"></i>Secciones</a>
+  <a href="#" id="btn-secciones"><i class="ti ti-category"></i>Secciones</a>
   <a href="opinion.html" class="activo"><i class="ti ti-feather"></i>Opinión</a>
   <a href="https://wa.me/5493804844173" target="_blank" rel="noopener"><i class="ti ti-brand-whatsapp"></i>Contacto</a>
 </nav>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase-init.js"></script>
+<script src="js/menu-secciones.js"></script>
 <script>
 document.querySelectorAll(".tabs-opinion button").forEach((btn) => {
   btn.addEventListener("click", () => {
@@ -65,58 +81,4 @@ document.querySelectorAll(".tabs-opinion button").forEach((btn) => {
 });
 
 function cardNota(nota, mostrarAutor) {
-  const a = document.createElement("a");
-  a.href = `article.html?id=${nota.id}`;
-  a.className = "card-nota";
-  const autorFecha = mostrarAutor
-    ? `<div class="autor-fecha">${nota.autor_nombre || "Lector"} · ${new Date(nota.fecha).toLocaleDateString("es-AR")}</div>`
-    : "";
-  a.innerHTML = `
-    <div class="media">${nota.imagen ? `<img src="${nota.imagen}" alt="">` : "sin imagen"}</div>
-    <h3>${nota.titulo}</h3>
-    <div class="cat">${nota.categoria}</div>
-    ${autorFecha}
-  `;
-  return a;
-}
-
-async function init() {
-  const { data: notas } = await sbClient.from("notas").select("*");
-  const { data: columnistas } = await sbClient.from("columnistas").select("*");
-
-  const editoriales = (notas || []).filter((n) => n.categoria === "Editoriales");
-  const cartas = (notas || []).filter((n) => n.es_carta);
-
-  const gridEd = document.getElementById("grid-editoriales");
-  if (editoriales.length === 0) {
-    gridEd.innerHTML = `<p style="padding:0 0 20px;color:var(--text-muted);font-size:13px;">Todavía no hay editoriales publicados.</p>`;
-  } else {
-    editoriales.forEach((n) => gridEd.appendChild(cardNota(n, false)));
-  }
-
-  const gridAut = document.getElementById("grid-autores");
-  (columnistas || []).forEach((c) => {
-    const div = document.createElement("div");
-    div.className = "card-autor";
-    div.innerHTML = `
-      <div class="avatar">${c.foto ? `<img src="${c.foto}" alt="">` : ""}</div>
-      <h3>${c.nombre}</h3>
-      <a class="ir-notas" href="columnista.html?id=${c.id}">Ir a notas</a>
-    `;
-    gridAut.appendChild(div);
-  });
-  if (!columnistas || columnistas.length === 0) {
-    gridAut.innerHTML = `<p style="grid-column:1/-1;color:var(--text-muted);font-size:13px;">Todavía no hay columnistas cargados.</p>`;
-  }
-
-  const gridCartas = document.getElementById("grid-cartas");
-  if (cartas.length === 0) {
-    gridCartas.innerHTML = `<p style="padding:0 0 20px;color:var(--text-muted);font-size:13px;">Todavía no hay cartas de lectores publicadas.</p>`;
-  } else {
-    cartas.forEach((n) => gridCartas.appendChild(cardNota(n, true)));
-  }
-}
-init();
-</script>
-</body>
-</html>
+  const a = docum
