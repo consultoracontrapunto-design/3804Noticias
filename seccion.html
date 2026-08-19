@@ -11,11 +11,13 @@
 
 <header class="masthead">
   <div class="container">
+    <a href="index.html" class="menu-toggle" aria-label="Volver al inicio"><i class="ti ti-arrow-left"></i></a>
     <a href="index.html" class="logo">380<span class="num4">4</span><span class="marca">Noticias</span></a>
+    <span></span>
   </div>
 </header>
 
-<div class="seccion-titulo" id="titulo-cat">Sección</div>
+<div class="seccion-titulo" id="titulo-cat" style="margin-top:20px;">Sección</div>
 <div class="grid-notas" id="grid-seccion"></div>
 
 <footer>
@@ -25,14 +27,23 @@
   <span class="handle">/3804noticias</span>
 </footer>
 
+<nav class="bottom-nav">
+  <a href="index.html"><i class="ti ti-home"></i>Inicio</a>
+  <a href="index.html#secciones"><i class="ti ti-category"></i>Secciones</a>
+  <a href="opinion.html"><i class="ti ti-feather"></i>Opinión</a>
+  <a href="https://wa.me/5493804844173" target="_blank" rel="noopener"><i class="ti ti-brand-whatsapp"></i>Contacto</a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-init.js"></script>
 <script>
 async function init() {
   const params = new URLSearchParams(location.search);
   const cat = params.get("cat") || "";
   document.getElementById("titulo-cat").textContent = cat || "Sección";
-  const notas = await fetch("data/notas.json").then((r) => r.json());
+  const { data: notas } = await sbClient.from("notas").select("*");
   const grid = document.getElementById("grid-seccion");
-  notas
+  (notas || [])
     .filter((n) => n.categoria === cat)
     .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
     .forEach((n) => {
