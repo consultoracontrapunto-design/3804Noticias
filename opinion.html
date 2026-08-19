@@ -30,7 +30,7 @@
 </div>
 
 <div class="panel-tab" id="panel-columnistas">
-  <p class="intro-columnistas">Acá encontrás el análisis y la mirada de quienes escriben en 3804 Noticias. Tocá en cada columnista para ver todas sus notas.</p>
+  <p class="intro-columnistas">Acá encontrás el análisis y la mirada de quienes escriben en 3804 Noticias.</p>
   <div class="grid-autores" id="grid-autores"></div>
 </div>
 
@@ -39,9 +39,6 @@
 </div>
 
 <footer>
-  <a href="#" aria-label="Facebook"><i class="ti ti-brand-facebook"></i></a>
-  <a href="#" aria-label="Instagram"><i class="ti ti-brand-instagram"></i></a>
-  <a href="#" aria-label="YouTube"><i class="ti ti-brand-youtube"></i></a>
   <span class="handle">/3804noticias</span>
 </footer>
 
@@ -70,15 +67,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase-init.js"></script>
 <script src="js/menu-secciones.js"></script>
-<script>
-document.querySelectorAll(".tabs-opinion button").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".tabs-opinion button").forEach((b) => b.classList.remove("activo"));
-    document.querySelectorAll(".panel-tab").forEach((p) => p.classList.remove("activo"));
-    btn.classList.add("activo");
-    document.getElementById("panel-" + btn.dataset.tab).classList.add("activo");
-  });
-});
-
-function cardNota(nota, mostrarAutor) {
-  const a = docum
+<script src="js/opinion.js"></script>
+</body>
+</html>
