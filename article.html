@@ -9,18 +9,17 @@
 <style>
   .cuerpo-nota{padding:14px 12px;font-size:16px;line-height:1.7;}
   .cuerpo-nota p{margin:0 0 14px;}
-  .volver{display:inline-block;padding:10px 12px;font-size:13px;color:var(--text-secondary);}
 </style>
 </head>
 <body>
 
 <header class="masthead">
   <div class="container">
+    <a href="index.html" class="menu-toggle" aria-label="Volver al inicio"><i class="ti ti-arrow-left"></i></a>
     <a href="index.html" class="logo">380<span class="num4">4</span><span class="marca">Noticias</span></a>
+    <span></span>
   </div>
 </header>
-
-<a href="index.html" class="volver">&larr; Volver a portada</a>
 
 <article id="nota-contenido"></article>
 
@@ -31,8 +30,32 @@
   <span class="handle">/3804noticias</span>
 </footer>
 
+<div class="overlay-secciones" id="overlay-secciones">
+  <div class="panel-secciones">
+    <button class="cerrar-menu">✕</button>
+    <h3>Secciones</h3>
+    <a href="seccion.html?cat=Política">Política</a>
+    <a href="seccion.html?cat=Judiciales">Judiciales</a>
+    <a href="seccion.html?cat=Economía">Economía</a>
+    <a href="seccion.html?cat=Sociedad">Sociedad</a>
+    <a href="seccion.html?cat=Deportes">Deportes</a>
+    <a href="seccion.html?cat=Cultura">Cultura</a>
+    <a href="index.html#regionales">Regionales</a>
+    <a href="opinion.html">Opinión</a>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i class="ti ti-home"></i>Inicio</a>
+  <a href="#" id="btn-secciones"><i class="ti ti-category"></i>Secciones</a>
+  <a href="opinion.html"><i class="ti ti-feather"></i>Opinión</a>
+  <a href="https://wa.me/5493804844173" target="_blank" rel="noopener"><i class="ti ti-brand-whatsapp"></i>Contacto</a>
+</nav>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase-init.js"></script>
+<script src="js/menu-secciones.js"></script>
 <script src="js/article.js"></script>
 </body>
+</html></body>
 </html>
