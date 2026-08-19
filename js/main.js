@@ -19,22 +19,6 @@ function cardNota(nota) {
   return a;
 }
 
-function cardColumna(nota, autoresPorId) {
-  const autor = autoresPorId[nota.autor_id] || { nombre: "Columnista", foto: "" };
-  const a = document.createElement("a");
-  a.href = `article.html?id=${nota.id}`;
-  a.className = "card-columna-grande";
-  a.innerHTML = `
-    <div class="avatar">${autor.foto ? `<img src="${autor.foto}" alt="">` : ""}</div>
-    <div>
-      <h3>${nota.titulo}</h3>
-      <p>${nota.bajada || ""}</p>
-      <div class="autor">${autor.nombre} · ${nota.categoria}</div>
-    </div>
-  `;
-  return a;
-}
-
 function sponsorBlock(sponsor) {
   const div = document.createElement("div");
   div.className = "espacio-sponsor";
@@ -47,17 +31,13 @@ function sponsorBlock(sponsor) {
 }
 
 async function init() {
-  const [notasRes, sponsorsRes, columnistasRes] = await Promise.all([
+  const [notasRes, sponsorsRes] = await Promise.all([
     sbClient.from("notas").select("*"),
     sbClient.from("sponsors").select("*"),
-    sbClient.from("columnistas").select("*"),
   ]);
 
-  const notas = notasRes.data || [];
+  const notas = (notasRes.data || []).filter((n) => !n.es_columna && !n.es_carta);
   const sponsors = sponsorsRes.data || [];
-  const columnistas = columnistasRes.data || [];
-
-  const autoresPorId = Object.fromEntries(columnistas.map((c) => [c.id, c]));
   const sponsorsPorPos = Object.fromEntries(sponsors.map((s) => [s.posicion, s]));
 
   notas.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
@@ -76,7 +56,7 @@ async function init() {
   });
   if (sessionStorage.getItem("sponsorTopCerrado") === "1") topBar.classList.add("oculto");
 
-  const destacada = notas.find((n) => n.destacada && !n.es_columna) || notas.find((n) => !n.es_columna);
+  const destacada = notas.find((n) => n.destacada) || notas[0];
   const destWrap = document.getElementById("destacada");
   if (destacada) {
     destWrap.innerHTML = `
@@ -90,7 +70,7 @@ async function init() {
       </a>`;
   }
 
-  const restoNotas = notas.filter((n) => n.id !== destacada?.id && !n.es_columna);
+  const restoNotas = notas.filter((n) => n.id !== destacada?.id);
   const grid1 = document.getElementById("grid-ultimas");
   restoNotas.slice(0, 4).forEach((n) => grid1.appendChild(cardNota(n)));
 
@@ -105,7 +85,7 @@ async function init() {
 
   function renderRegionales(filtro) {
     gridRegionales.innerHTML = "";
-    const lista = notas.filter((n) => !n.es_columna && (filtro === "Todas" || n.localidad === filtro));
+    const lista = notas.filter((n) => filtro === "Todas" || n.localidad === filtro);
     lista.slice(0, 8).forEach((n) => gridRegionales.appendChild(cardNota(n)));
   }
 
@@ -123,10 +103,6 @@ async function init() {
   renderRegionales("Todas");
 
   document.getElementById("espacio-intercalado").appendChild(sponsorBlock(sponsorsPorPos["intercalado"]));
-
-  const columnas = notas.filter((n) => n.es_columna);
-  const wrapColumnas = document.getElementById("lista-columnas");
-  columnas.slice(0, 3).forEach((n) => wrapColumnas.appendChild(cardColumna(n, autoresPorId)));
 
   const masLeidas = document.getElementById("lista-mas-leidas");
   restoNotas.slice(0, 3).forEach((n) => {
