@@ -111,7 +111,9 @@ footer .handle{font-size:12px;color:var(--text-muted);}
   .grid-notas{grid-template-columns:repeat(4,minmax(0,1fr));}
   .layout-desktop{display:grid;grid-template-columns:1fr 280px;gap:20px;align-items:start;}
   .sidebar-sponsor{background:var(--bg-card);border:1px dashed var(--border);border-radius:var(--radius);padding:16px;text-align:center;color:var(--text-muted);font-size:12px;}
-                       } .overlay-secciones{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;display:none;}
+}
+
+.overlay-secciones{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;display:none;}
 .overlay-secciones.abierto{display:block;}
 .panel-secciones{position:fixed;left:0;right:0;bottom:0;background:#fff;color:#000;border-radius:16px 16px 0 0;padding:20px 16px 90px;z-index:101;}
 .panel-secciones h3{margin:0 0 14px;font-size:16px;}
