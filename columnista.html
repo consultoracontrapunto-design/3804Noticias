@@ -1,1 +1,88 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Columnista — 3804 Noticias</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/iconfont/tabler-icons.min.css">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .perfil{padding:20px 12px;text-align:center;border-bottom:1px solid var(--border);}
+  .perfil .avatar{width:96px;height:96px;border-radius:50%;background:var(--bg-media);margin:0 auto 14px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:11px;}
+  .perfil .avatar img{width:100%;height:100%;object-fit:cover;}
+  .perfil h1{font-family:Georgia,"Times New Roman",serif;font-size:24px;margin:0 0 6px;}
+  .perfil p{font-size:13px;color:var(--text-secondary);max-width:480px;margin:0 auto;line-height:1.6;}
+</style>
+</head>
+<body>
 
+<header class="masthead">
+  <div class="container">
+    <a href="opinion.html" class="menu-toggle" aria-label="Volver"><i class="ti ti-arrow-left"></i></a>
+    <a href="index.html" class="logo">380<span class="num4">4</span><span class="marca">Noticias</span></a>
+    <span></span>
+  </div>
+</header>
+
+<div class="perfil" id="perfil"></div>
+
+<div class="seccion-titulo">Sus notas</div>
+<div class="grid-notas" id="grid-notas-autor"></div>
+
+<footer>
+  <a href="#" aria-label="Facebook"><i class="ti ti-brand-facebook"></i></a>
+  <a href="#" aria-label="Instagram"><i class="ti ti-brand-instagram"></i></a>
+  <a href="#" aria-label="YouTube"><i class="ti ti-brand-youtube"></i></a>
+  <span class="handle">/3804noticias</span>
+</footer>
+
+<nav class="bottom-nav">
+  <a href="index.html"><i class="ti ti-home"></i>Inicio</a>
+  <a href="index.html#secciones"><i class="ti ti-category"></i>Secciones</a>
+  <a href="opinion.html" class="activo"><i class="ti ti-feather"></i>Opinión</a>
+  <a href="https://wa.me/5493804844173" target="_blank" rel="noopener"><i class="ti ti-brand-whatsapp"></i>Contacto</a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-init.js"></script>
+<script>
+async function init() {
+  const params = new URLSearchParams(location.search);
+  const id = params.get("id");
+
+  const { data: autor } = await sbClient.from("columnistas").select("*").eq("id", id).single();
+  const { data: notas } = await sbClient.from("notas").select("*").eq("autor_id", id).eq("es_columna", true);
+
+  const perfil = document.getElementById("perfil");
+  if (!autor) {
+    perfil.innerHTML = `<p>No encontramos ese columnista.</p>`;
+    return;
+  }
+  perfil.innerHTML = `
+    <div class="avatar">${autor.foto ? `<img src="${autor.foto}" alt="">` : ""}</div>
+    <h1>${autor.nombre}</h1>
+    <p>${autor.bio || ""}</p>
+  `;
+  document.title = `${autor.nombre} — 3804 Noticias`;
+
+  const grid = document.getElementById("grid-notas-autor");
+  if (!notas || notas.length === 0) {
+    grid.innerHTML = `<p style="padding:0 12px;color:var(--text-muted);font-size:13px;">Todavía no publicó columnas.</p>`;
+    return;
+  }
+  notas.forEach((n) => {
+    const a = document.createElement("a");
+    a.href = `article.html?id=${n.id}`;
+    a.className = "card-nota";
+    a.innerHTML = `
+      <div class="media">${n.imagen ? `<img src="${n.imagen}" alt="">` : "sin imagen"}</div>
+      <h3>${n.titulo}</h3>
+      <div class="cat">${n.categoria}</div>
+    `;
+    grid.appendChild(a);
+  });
+}
+init();
+</script>
+</body>
+</html>
